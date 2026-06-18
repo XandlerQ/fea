@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://c6s05iyjnxk06"]
+
+[ext_resource type="Script" uid="uid://dbpcvechov15y" path="res://scenes/object/entity/player/player.gd" id="1_xg5q3"]
+[ext_resource type="PackedScene" uid="uid://d1y2mrk1pbpnb" path="res://scenes/object/entity/player/components/camera/player_camera_node.tscn" id="2_ypewr"]
+[ext_resource type="PackedScene" uid="uid://k26odv78fkiu" path="res://scenes/object/entity/player/components/movement/input/player_movement_input_component.tscn" id="3_eefhw"]
+[ext_resource type="PackedScene" uid="uid://dfovj37ged381" path="res://scenes/object/entity/player/components/movement/player_movement_component.tscn" id="4_4fs46"]
+[ext_resource type="PackedScene" uid="uid://dgj0x5dw5k64h" path="res://scenes/object/entity/player/components/movement/player_movement_fsml.tscn" id="5_bu3a2"]
+[ext_resource type="Curve" uid="uid://dl4n45nt24al7" path="res://scenes/object/entity/player/components/movement/states/dash_speed_curve.tres" id="5_vrwvh"]
+[ext_resource type="Script" uid="uid://dtep71uojg7h6" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_idle.gd" id="6_jhnb8"]
+[ext_resource type="Script" uid="uid://diqrdkdgn84nv" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_walk.gd" id="7_jo4e4"]
+[ext_resource type="Script" uid="uid://d3qf2fghwiy45" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_fall.gd" id="8_jhnb8"]
+[ext_resource type="Script" uid="uid://crd61da4xb8qx" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_rise.gd" id="8_q5dhb"]
+[ext_resource type="Script" uid="uid://b52abngiklvdm" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_sprint.gd" id="9_jo4e4"]
+[ext_resource type="Script" uid="uid://njuvaao83sax" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_jump.gd" id="10_ih27x"]
+[ext_resource type="Script" uid="uid://dbumprnt340lq" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_dash_crv.gd" id="12_tewvn"]
+[ext_resource type="Script" uid="uid://bih4yjka3eqwi" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_on_wall_glide.gd" id="13_p7phs"]
+[ext_resource type="Script" uid="uid://bid5a7bi3yiyh" path="res://scenes/object/entity/player/components/movement/states/st_player_movement_wall_jump.gd" id="14_p7phs"]
+[ext_resource type="PackedScene" uid="uid://ds4sy6v6ac53m" path="res://ext/models/weapons/dagger.gltf" id="15_2uhqv"]
+[ext_resource type="Script" uid="uid://bh8t6an5kukw4" path="res://scenes/object/entity/player/components/combat/input/player_combat_input_component.gd" id="16_2uhqv"]
+[ext_resource type="Script" uid="uid://3ipyblvray8l" path="res://scenes/projectile/caster/projectile_caster_component.gd" id="17_na3ya"]
+[ext_resource type="PackedScene" uid="uid://b5kntpu2712gk" path="res://scenes/projectile/weapon/knife_projectile.tscn" id="18_l73cc"]
+[ext_resource type="Script" uid="uid://dwd4mse75xdjc" path="res://scenes/object/entity/player/components/combat/player_combat_component.gd" id="18_phmc3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x7p2l"]
+radius = 0.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x7p2l"]
+radius = 0.25
+
+[sub_resource type="Curve" id="Curve_5h6xr"]
+_data = [Vector2(0, 0), 0.0, 33.60259, 0, 0, Vector2(0.06923077, 0.9369952), 2.228743, 2.228743, 0, 0, Vector2(0.15384614, 1), 0.0, 0.0, 0, 0, Vector2(0.5346154, 0), -1.8351414, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_p7phs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.59550565), -0.5089228, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_l6u7t"]
+_data = [Vector2(0, 0.20224726), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.2359543, 0.0, 0, 0]
+point_count = 2
+
+[node name="Player" type="CharacterBody3D" unique_id=2109430277]
+script = ExtResource("1_xg5q3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1297542517]
+shape = SubResource("CapsuleShape3D_x7p2l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=889547175]
+mesh = SubResource("CapsuleMesh_x7p2l")
+
+[node name="CameraNode" parent="." unique_id=567253889 node_paths=PackedStringArray("pmc") instance=ExtResource("2_ypewr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+pmc = NodePath("../PlayerMovementComponent")
+camKickCurve = SubResource("Curve_5h6xr")
+
+[node name="TempArm" type="Node3D" parent="CameraNode" unique_id=2017623909]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0.26081347, -0.29786047, -0.31469035)
+
+[node name="Marker3D" type="Marker3D" parent="CameraNode/TempArm" unique_id=469289185]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, -0.0069200993, -0.021327317, -0.24933082)
+
+[node name="Weapon" type="Node3D" parent="CameraNode/TempArm" unique_id=901603176]
+transform = Transform3D(-0.25881904, -0.9659258, 0, 0.9659259, -0.25881904, 0, 0, 0, 1.0000002, 0, 0, 0)
+
+[node name="blockbench_export" parent="CameraNode/TempArm/Weapon" unique_id=830515686 instance=ExtResource("15_2uhqv")]
+transform = Transform3D(0.695, 0, 0, 0, 0.695, 0, 0, 0, 0.695, 0, 0, 0)
+
+[node name="PlayerMovementInputComponent" parent="." unique_id=511359283 instance=ExtResource("3_eefhw")]
+
+[node name="PlayerMovementComponent" parent="." unique_id=178462095 node_paths=PackedStringArray("player", "pmic", "pcn", "mfsml") instance=ExtResource("4_4fs46")]
+player = NodePath("..")
+pmic = NodePath("../PlayerMovementInputComponent")
+pcn = NodePath("../CameraNode")
+mfsml = NodePath("PlayerMovementFSML")
+dashSpeed = 20.0
+dashSpeedCurve = ExtResource("5_vrwvh")
+wallGlideSpeedCurve = SubResource("Curve_p7phs")
+wallGlideGravityCurve = SubResource("Curve_l6u7t")
+
+[node name="PlayerMovementFSML" parent="PlayerMovementComponent" unique_id=563640124 node_paths=PackedStringArray("initialState") instance=ExtResource("5_bu3a2")]
+initialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=1898074901 node_paths=PackedStringArray("pmc")]
+script = ExtResource("6_jhnb8")
+pmc = NodePath("../..")
+
+[node name="Walk" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=1084164026 node_paths=PackedStringArray("pmc")]
+script = ExtResource("7_jo4e4")
+pmc = NodePath("../..")
+
+[node name="Rise" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=1023165801 node_paths=PackedStringArray("pmc")]
+script = ExtResource("8_q5dhb")
+pmc = NodePath("../..")
+
+[node name="Fall" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=1432191734 node_paths=PackedStringArray("pmc")]
+script = ExtResource("8_jhnb8")
+pmc = NodePath("../..")
+
+[node name="Sprint" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=1158057247 node_paths=PackedStringArray("pmc")]
+script = ExtResource("9_jo4e4")
+pmc = NodePath("../..")
+
+[node name="Jump" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=845067126 node_paths=PackedStringArray("pmc")]
+script = ExtResource("10_ih27x")
+pmc = NodePath("../..")
+
+[node name="Dash" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=582500275 node_paths=PackedStringArray("pmc")]
+script = ExtResource("12_tewvn")
+pmc = NodePath("../..")
+blocksExternalTransitions = true
+
+[node name="OnWall" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=1977802482 node_paths=PackedStringArray("pmc")]
+script = ExtResource("13_p7phs")
+pmc = NodePath("../..")
+
+[node name="WallJump" type="Node" parent="PlayerMovementComponent/PlayerMovementFSML" unique_id=2014131486 node_paths=PackedStringArray("pmc")]
+script = ExtResource("14_p7phs")
+pmc = NodePath("../..")
+
+[node name="PlayerCombatInputComponent" type="Node" parent="." unique_id=832237598]
+script = ExtResource("16_2uhqv")
+metadata/_custom_type_script = "uid://bh8t6an5kukw4"
+
+[node name="PlayerCombatComponent" type="Node" parent="." unique_id=609679599 node_paths=PackedStringArray("player", "pcic", "pmc", "projectileCaster")]
+script = ExtResource("18_phmc3")
+player = NodePath("..")
+pcic = NodePath("../PlayerCombatInputComponent")
+pmc = NodePath("../PlayerMovementComponent")
+projectileCaster = NodePath("../ProjectileCasterComponent")
+metadata/_custom_type_script = "uid://dwd4mse75xdjc"
+
+[node name="ProjectileCasterComponent" type="Node" parent="." unique_id=1240403461 node_paths=PackedStringArray("projectileSpawnPoint", "pcic")]
+script = ExtResource("17_na3ya")
+projectilePackedScene = ExtResource("18_l73cc")
+projectileSpawnPoint = NodePath("../CameraNode/TempArm/Marker3D")
+pcic = NodePath("../PlayerCombatInputComponent")
+metadata/_custom_type_script = "uid://3ipyblvray8l"

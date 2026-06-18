@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dl3p3y0psve6r"]
+
+[ext_resource type="Script" uid="uid://dgvl40no5bmsm" path="res://scenes/projectile/components/projectile_orientation_component.gd" id="1_m8aes"]
+
+[node name="ProjectileOrientationComponent" type="Node" unique_id=504696639]
+script = ExtResource("1_m8aes")

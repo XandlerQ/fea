@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://b5kntpu2712gk"]
+
+[ext_resource type="Script" uid="uid://drrfuflcrkj6t" path="res://scenes/projectile/weapon/knife_projectile.gd" id="1_ehnad"]
+[ext_resource type="PackedScene" uid="uid://dsjahyolhy50r" path="res://scenes/projectile/components/projectile_movement_component.tscn" id="1_mn140"]
+[ext_resource type="PackedScene" uid="uid://ds4sy6v6ac53m" path="res://ext/models/weapons/dagger.gltf" id="2_rymxa"]
+[ext_resource type="PackedScene" uid="uid://xwt5nldv0gix" path="res://scenes/object/universal/hitbox/hitbox.tscn" id="3_73ahf"]
+[ext_resource type="PackedScene" uid="uid://dl3p3y0psve6r" path="res://scenes/projectile/components/projectile_orientation_component.tscn" id="5_gbu80"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gbu80"]
+radius = 0.1977539
+height = 0.7470703
+
+[node name="KnifeProjectile" type="Node3D" unique_id=25348049 node_paths=PackedStringArray("hitbox", "effectiveColShape", "pmc")]
+script = ExtResource("1_ehnad")
+hitbox = NodePath("Hitbox")
+effectiveColShape = NodePath("CollisionShape3D")
+pmc = NodePath("ProjectileMovementComponent")
+
+[node name="LifetimeTimer" type="Timer" parent="." unique_id=954770292]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1726744626]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -1.3446368e-09, -0.22288918)
+shape = SubResource("CapsuleShape3D_gbu80")
+
+[node name="ProjectileMovementComponent" parent="." unique_id=1815291634 node_paths=PackedStringArray("projectile") instance=ExtResource("1_mn140")]
+projectile = NodePath("..")
+
+[node name="ProjectileOrientationComponent" parent="." unique_id=504696639 node_paths=PackedStringArray("controlled", "prmc") instance=ExtResource("5_gbu80")]
+controlled = NodePath("../blockbench_export")
+prmc = NodePath("../ProjectileMovementComponent")
+
+[node name="blockbench_export" parent="." unique_id=830515686 instance=ExtResource("2_rymxa")]
+
+[node name="Hitbox" parent="." unique_id=960844844 node_paths=PackedStringArray("colShape") instance=ExtResource("3_73ahf")]
+colShape = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" unique_id=1697650558]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -1.3446368e-09, -0.22288918)
+shape = SubResource("CapsuleShape3D_gbu80")

@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://csbhvcxhmgb1l"]
+
+[ext_resource type="Texture2D" uid="uid://xr518t68maav" path="res://ext/materials/tiles/tech/grid_1m_grey.png" id="1_gmpm1"]
+
+[resource]
+albedo_texture = ExtResource("1_gmpm1")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 150.0
+uv2_triplanar = true
+texture_filter = 0

@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://bcxfwpre4283d"]
+
+[node name="PlayerCamera" type="Camera3D"]
+fov = 90.0
